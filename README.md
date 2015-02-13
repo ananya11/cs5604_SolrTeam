@@ -1,2 +1,6 @@
-# cs5604_SolrTeam
-This is the repository for CS5604 Solr Team
+# CS5604
+
+Rich Gruss  
+rgruss@vt.edu  
+540-449-6430  
+

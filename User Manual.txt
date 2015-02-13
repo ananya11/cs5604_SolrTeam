@@ -1,0 +1,88 @@
+User manual to upload datasets to Solr
+----------------------------------------------------
+
+This document is a step-by-step guide on how you can post your team’s assigned datasets to Solr. Documents can be in any of these formats xml, csv, txt, json file formats and there are multiple ways to do it. However in this guideline, we limit ourselves to csv/text files and discuss two basic ways to upload them.
+
+We assume that Solr-4.10.* is installed in all machines. You can download the latest version from http://www.apache.org/dyn/closer.cgi/lucene/solr/4.10.3 . You will need JRE version 1.7 or higher.
+
+This document contains the following sections:
+
+1. Configure Solr configuration files
+2. Upload tweets to Solr
+    - Using python script
+    - Using command line instructions
+3. Upload webpages
+4. Delete indexed text
+
+$SOLR_HOME is the root directory of your solr install. 
+Currently this document only shows how you can index csv files containing tweets. 
+
+
+1. Configure Solr configuration files
+---------------------------------------
+There are a few common steps that need to be performed before any document can be indexed to Solr. The below xml tags are specific to the tweets dataset. 
+
+Create a folder cs5604 at $SOLR_HOME/example/exampledocs
+Download your dataset here
+Copy post.jar and post.sh from $SOLR_HOME/example/exampledocs to $SOLR_HOME/example/cs5604
+Copy https://github.com/richgruss/CS5604/blob/master/schema.xml to $SOLR_HOME/example/solr/collection1/conf/schema.xml. 
+Copy https://github.com/richgruss/CS5604/blob/master/solrconfig.xml to $SOLR_HOME/example/solr/collection1/conf/solrconfig.xml.
+
+
+
+2. Upload tweets to Solr
+---------------------------------------
+Now you can choose if you want to post documents using either a python script or using command line parameters.
+
+- Using Python script
+-----------------------
+  - Copy python code https://github.com/richgruss/CS5604/blob/master/solr_util.py
+  - Edit your csv absolute path in the code at line 43 for variable ‘twitter_file_name’
+  - Run the code from your local machine.
+  - This will edit your csv file in appropriate format and index all tweets to Solr
+    - After the tweets are loaded, you can see them with this url
+ http://localhost:8983/solr/collection1/browse. 
+  - You can also check your data by posting a query in Solr Admin at 
+http://localhost:8983/solr/#/collection1/query 
+
+- Using Command line instructions
+----------------------------------
+  - Open your .csv file at $SOLR_HOME/example/cs5604  and delete columns A, C, F, H, I, J, K, L, N. This means except column # B, D, E, G, M , delete all.
+  - Rename those columns in the order shown below. 
+	
+user_screen_name  |  text  |  id |  lang |  created_at
+
+  - Save the file.
+  - Now fire up your solr core.
+  - Add your filename in any one of the below command and run it in your terminal/ command prompt
+  - curl 'http://localhost:8983/solr/update?commit=true&header=true --data-binary @<your-filename> -H 'Content-type:application/csv; charset=utf-8’
+
+  or 
+  - Navigate to /example/exampledocs in your command prompt/terminal and run below command.
+java -jar -Dtype=text/csv post.jar <your filename>
+
+	- Please make sure you run the above commands from where your post.jar file is. By default, it’ll be in /example/exampledocs directory
+
+  - After the tweets are loaded, you can see them with this url
+ http://localhost:8983/solr/collection1/browse. 
+  - You can also check your data by posting a query in Solr Admin at 
+http://localhost:8983/solr/#/collection1/query 
+
+
+3. Upload webpages
+---------------------------------------
+Before you do so, we must warn you that the indexed webpages look unpleasant as we haven’t defined schema for the webpages yet. Moreover, deleting these indexed file is a tedious job. So we suggest you index just one webpage instead of the entire dataset.
+Using Command line instructions
+Run this instruction on your command prompt/terminal and the file named 1.txt will be indexed. 
+java -Dauto -Drecursive -jar post.jar webpages/1.txt
+
+
+4. Delete Indexed Text
+---------------------------------------
+If you want to delete an indexed file, 
+java -Ddata=args -jar post.jar "<delete><id>978-1857995879</id></delete>"
+We are still working on how to delete a bunch of files. We’ll update this document once we find it
+
+
+
+	
