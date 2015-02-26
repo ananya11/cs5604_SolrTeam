@@ -40,6 +40,19 @@
 
     <uniqueKey>id</uniqueKey>
 
+      <!-- class analysis fields -->
+    <field name="ner_people" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="ner_locations" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="ner_dates" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="ner_organizations" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+
+    <field name="cluster_id" type="string" indexed="false" stored="true" required="false" multiValued="false"/>
+
+    <!-- is it a good idea to store JSON data structures as strings? -->
+    <field name="classification_vector_json" type="string" indexed="false" stored="true" required="false" multiValued="false"/>
+    <field name="social_vector_json" type="string" indexed="false" stored="true" required="false" multiValued="true"/>
+    <field name="lda_dict_json" type="string" indexed="false" stored="true" required="false" multiValued="true"/>
+
     <types>
 
         <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->

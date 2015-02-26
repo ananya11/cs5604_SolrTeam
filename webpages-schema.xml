@@ -10,7 +10,20 @@
 	<field name="section" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
 
 	<field name="urls" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
-	
+
+    <!-- class analysis fields -->
+    <field name="ner_people" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="ner_locations" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="ner_dates" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="ner_organizations" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+
+    <field name="cluster_id" type="string" indexed="false" stored="true" required="false" multiValued="false"/>
+
+    <!-- is it a good idea to store JSON data structures as strings? -->
+    <field name="classification_vector_json" type="string" indexed="false" stored="true" required="false" multiValued="false"/>
+    <field name="social_vector_json" type="string" indexed="false" stored="true" required="false" multiValued="true"/>
+    <field name="lda_dict_json" type="string" indexed="false" stored="true" required="false" multiValued="true"/>
+
 	<!-- The following fields are optional and to be removed if not applicable. -->
 	<field name="twitter_link" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
 	<field name="facebook_link" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
@@ -30,12 +43,13 @@
         <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
         <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
         <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
 
         <!-- boolean type: "true" or "false" -->
         <!-- <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
         <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0"/>
         <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
-        <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
+
         <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/> -->
         
             <analyzer type="index">
